@@ -8,9 +8,21 @@ except for the first character itself. You can assume that the string is at leas
 
 For example:
 
+
+REGEX!
 fixStart('babble'): 'ba**le'
 */
 
 function fixStart(s) {
   // write your solution here...
+
+  new regExp([^^], gi);
+  s = s.replace(/[^^]l/g, '')
+
+  /* var toReplace = s[0];
+  s = s.replace(toReplace, '*') */
+
+  console.log(s);
 }
+
+fixStart("Gotta get him out my hair")

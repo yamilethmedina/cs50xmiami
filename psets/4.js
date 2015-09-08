@@ -11,3 +11,9 @@ http://www.mathsisfun.com/temperature-conversion.html
 */
 
 // write your solution here...
+
+var celcius = 10;
+
+var farenheit = ((celcius * 9) / 5) + 32;
+
+console.log(farenheit + "°F is " + celcius + "°C.");
