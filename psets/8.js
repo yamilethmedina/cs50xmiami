@@ -18,4 +18,24 @@ For example:
 
 function verbing(word) {
   // write your solution here...
+  if (word.length >= 3)
+  {
+    var substring = word.substring(word.length - 3, word.length);
+    if (substring === 'ing')
+      // end of word ends in -ing)
+    {
+      word = word + 'ly';
+      // add -ly
+    }
+    else
+    {
+      word = word + word.slice(-1) + 'ing';
+      // add -ing
+    }
+  }
+  console.log(word);
 }
+
+verbing("swim");
+verbing("swimming");
+verbing("go");
