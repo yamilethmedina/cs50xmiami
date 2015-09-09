@@ -25,14 +25,17 @@ function notBad(sentence) {
   // sentence.search(/bad/wi);
   // console.log(bad);
 
-  if (not === -1 && bad === -1 && not < bad)
+  // i don't think this loop is running
+  if (not == -1 && bad == -1 && not < bad)
 
   {
 
     // substitute not...bad with good
 
     var sentence1 = sentence.slice(0, not);
+    console.log(sentence1);
     var sentence2 = sentence.slice(bad + 3);
+    console.log(sentence2);
     sentence = sentence1 + 'good' + sentence2;
     // var substring = sentence.substring(not - 1, bad + 1);
     // console.log(substring);
