@@ -12,3 +12,17 @@ Write a function named calculateSupply that:
 */
 
 // write your solution here...
+
+function calculateSupply(age, amount) {
+
+  var maxAge = 85;
+  var lifetime = maxAge - age;
+  var lifeSnacks = (lifetime * amount) * 365;
+
+  console.log("You will need about " + lifeSnacks + " snacks to last you until the ripe old age of " + maxAge + ".");
+
+}
+
+calculateSupply(28, 3);
+calculateSupply(22, 10);
+calculateSupply(80, 2);
