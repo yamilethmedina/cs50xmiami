@@ -27,3 +27,6 @@ function calcArea(radius) {
   var area = (radius * radius) * 3.141592;
   console.log("The area is " + area + ".");
 }
+
+calcCircumfrence(6);
+calcArea(6);
