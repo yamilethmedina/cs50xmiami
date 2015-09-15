@@ -9,3 +9,10 @@ Create an array to hold your top choices (colors, presidents, whatever).
 */
 
 // write your solution here...
+
+var music = ["Lady Gaga", "Nicki Minaj", "Vampire Weekend", "Drake"];
+
+console.log("My first choice is " + music[0]+ ".");
+console.log("My second choice is " + music[1]+ ".");
+console.log("My third choice is " + music[2]+ ".");
+console.log("My fourth choice is " + music[3]+ ".");
