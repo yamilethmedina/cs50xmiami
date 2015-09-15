@@ -26,16 +26,20 @@ function notBad(sentence) {
   // console.log(bad);
 
   // i don't think this loop is running
-  if (not == -1 && bad == -1 && not < bad)
+  if (not == -1 || bad == -1 || bad < not)
 
   {
+      console.log(sentence);
+  }
 
     // substitute not...bad with good
 
+  else
+
+  {
+
     var sentence1 = sentence.slice(0, not);
-    console.log(sentence1);
-    var sentence2 = sentence.slice(bad + 3);
-    console.log(sentence2);
+    var sentence2 = sentence.slice(bad + 3);    
     sentence = sentence1 + 'good' + sentence2;
     // var substring = sentence.substring(not - 1, bad + 1);
     // console.log(substring);
@@ -46,11 +50,6 @@ function notBad(sentence) {
     // console.log(substring);
   //  sentence = sentence + substring;
 
-
-  }
-  else
-  {
-    console.log(sentence);
   }
 }
 
