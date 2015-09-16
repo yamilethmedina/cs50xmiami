@@ -18,10 +18,21 @@ Keep track of which books you read and which books you want to read!
 
 // write your solution here...
 
-var books [
-  var book1 = {title: "The Hobbit", author: "J.R.R. Tolkien", alreadyRead: no};
-  var book2 = {title: "Harry Potter and the Sorcerer's Stone", author: "J.K. Rowling", alreadyRead: yes};
+var books = new Array (
+  book1 = {title: "The Hobbit", author: "J.R.R. Tolkien", alreadyRead: false},
+  book2 = {title: "Harry Potter and the Sorcerer's Stone", author: "J.K. Rowling", alreadyRead: true}
 
-];
+);
 
-console.log(books["title"] + " by " + books["author"]);
+for (var i = 0; i < books.length; i++)
+{
+  console.log(books[i]["title"] + " by " + books[i]["author"]);
+  if (books[i]["alreadyRead"] == true)
+  {
+    console.log("You already read " + books[i]["title"] + " by " + books[i]["author"]);
+  }
+  else
+  {
+    console.log("You still need to read " + books[i]["title"] + " by " + books[i]["author"]);
+  }
+}
