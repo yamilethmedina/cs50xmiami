@@ -17,3 +17,11 @@ Keep track of which books you read and which books you want to read!
 */
 
 // write your solution here...
+
+var books [
+  var book1 = {title: "The Hobbit", author: "J.R.R. Tolkien", alreadyRead: no};
+  var book2 = {title: "Harry Potter and the Sorcerer's Stone", author: "J.K. Rowling", alreadyRead: yes};
+
+];
+
+console.log(books["title"] + " by " + books["author"]);
