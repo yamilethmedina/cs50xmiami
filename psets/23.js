@@ -11,3 +11,16 @@ It's like IMDB, but much much smaller!
 */
 
 // write your solution here...
+
+
+var movie = {title: "Pitch Perfect", duration: 115, stars: ["Anna Kendrick", "Rebel Wilson"] }
+
+
+function movieInfo(movie) {
+
+    console.log(movie["title"] + " lasts for " + movie["duration"] + " minutes. Stars: " + movie["stars"] + ".")
+
+
+}
+
+movieInfo(movie);

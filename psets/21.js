@@ -19,7 +19,7 @@ Never forget another recipe!
 
 // write your solution here...
 
-var tandooriChicken = {title: "Tandoori Chicken", servings: "4", ingredients: ["chicken breast", "yogurt", "curry powder"]}
+var tandooriChicken = {title: "Tandoori Chicken", servings: 4, ingredients: ["chicken breast", "yogurt", "curry powder"]}
 
 console.log(tandooriChicken["title"]);
 console.log("Serves: " + tandooriChicken["servings"]);
