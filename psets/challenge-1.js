@@ -35,3 +35,35 @@ like Wheel of Fortune without the wheel and fortune).
 */
 
 // write your solution here...
+
+var wordLetters = ['F', 'O', 'X'];
+var guessedLetters = ['_', '_', '_'];
+
+function guessLetter(letter) {
+  for (var i = 0; i < wordLetters.length; i++) {
+      if (letter.toUpperCase() === wordLetters[i])
+        {
+          guessedLetters[i] = letter // or = word[i]
+          console.log(letter);
+          document.write("<h1>Congrats, you guessed a new letter!</h1>");
+        }
+    }
+
+      for (var i = 0; i < guessedLetters.length; i++)
+      {
+        if (guessedLetters[i] === '_')
+        {
+          return false; // allows the game to keep going
+        }
+      }
+
+  return true;
+}
+
+do
+{
+  var done = guessLetter(prompt('You have not guessed the word\nGuess a letter'));
+}
+while(!done);
+
+document.getElementsByTagName('body')[0].innerHTML = ('<h1>You guessed the word</h1>'); //overrides whole body

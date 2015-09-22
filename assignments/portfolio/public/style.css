@@ -65,3 +65,40 @@ body {
   color: gray;
   font-size: 12px;
 }
+
+.message-sender {
+
+  font-weight: bold;
+  display: inline;
+  /*float: left;*/
+}
+
+/*.icon {
+  display:inline;
+  width:36px;
+  height:36px;
+  float: left;
+}*/
+
+.timestamp {
+
+  color: lightgrey;
+  font-size: x-small;
+  display: inline;
+}
+.chat-item {
+  margin-top: 5px;
+  margin-bottom:5px;
+
+
+}
+
+.video {
+  width: 400px;
+  height: 300px;
+  max-width: 100%;
+}
+
+.servicename {
+  color: lightgrey;
+}
