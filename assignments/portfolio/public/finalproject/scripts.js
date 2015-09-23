@@ -1,7 +1,7 @@
 var searchButton = document.getElementById('search');
 if(searchButton) {
     searchButton.addEventListener('click', getOriginalArtist, false);
-    
+
 
 function getOriginalArtist() {
   var originalArtist = document.getElementById('originalartist').value;
@@ -11,7 +11,7 @@ function getOriginalArtist() {
 function searchArtists(originalArtist) {
   $.getJSON("https://api.spotify.com/v1/search?type=artist&q=" + originalArtist, function(json) {
     $('#artist').html('<p>'+ '<img src="' + json.artists.items[0].images[2].url + '" height="100" width="100" /> ' + json.artists.items[0].name +'</p>');
-    
+
     relatedArtists(json.artists.items[0].id);
   });
 }
@@ -20,14 +20,27 @@ function relatedArtists(originalArtistId) {
   $.getJSON("https://api.spotify.com/v1/artists/" + originalArtistId + "/related-artists", function(json) {
     if(json.artists.length > 0) {
       var artistsLength = json.artists.length;
-      
+
+      //search for related artist ID to get top song
+      var relatedArtistId = searchArtists(artists[i]);
+
+      //get top song from that related artist
+      function relatedArtistTopSong(relatedArtistId) {
+        $.getJSON("https://api.spotify.com/v1/artists/" + relatedArtistId + "/top-tracks?country=US", function(json) {
+          if(json.tracks.length > 0) {
+            var tracksLength = json.track.length;
+
       // reset html of related artist for new search
       $('#related-artist').html('');
-      
+
+      //reset html of tracks for new search
+      $('#related-artist-track').html('');
+
       // loop through related artists, append name of each
       for(var i = 0; i < artistsLength; i++) {
-        $('#related-artist').append('<p>'+ '<img src="' + json.artists[i].images[2].url + '" height="100" width="100" /> ' + json.artists[i].name +'</p>');
-        
+        $('#related-artist').append('<p>'+ '<img src="' + json.artists[i].images[2].url + '" height="100" width="100" /> ' + json.artists[i].name + '<i>' + json.tracks[0].name + '</i></p>');
+
+      //append the top track
       }
     }
   });
@@ -43,7 +56,7 @@ function relatedArtists(originalArtistId) {
 //    {
 //        type: "POST", // The request type is POST
 //        url: 'email.php', // This is the name of the PHP file. It must be in the same folder as the JS file
-//        data: {'people': JSON.stringify(peopleArray)}, // We're passing on the JSON object (converted to string)       
+//        data: {'people': JSON.stringify(peopleArray)}, // We're passing on the JSON object (converted to string)
 //        success: function() { // What happends if the AJAX request succeeded
 //            console.info("Well done!");
 //        },
@@ -56,7 +69,7 @@ function relatedArtists(originalArtistId) {
 //$('#emailbutton').click(function(){
 //    $(location).attr('href', 'mailto:?subject='
 //                             + encodeURIComponent("Here is your playlist!")
-//                             + "&body=If you like $('#artist').val(), you might like these related artists too: $('#related-artist').val()" 
+//                             + "&body=If you like $('#artist').val(), you might like these related artists too: $('#related-artist').val()"
 //                             + encodeURIComponent("This is my body")
 //    );
 //});
@@ -90,9 +103,9 @@ function relatedArtists(originalArtistId) {
 // }).done(function(response) {
 //   console.log(response); // if you're into that sorta thing
 // });
-// 
-// 
-// 
+//
+//
+//
 // $('#yourButtonId').click(function() {
 //  $.ajax({
 //    // ...
