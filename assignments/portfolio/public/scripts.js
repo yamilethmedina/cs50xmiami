@@ -1,8 +1,10 @@
-var browserify = require('browserify')
-var Spotify = require('/node_modules/spotify-web-api-js/src/spotify-web-api.js');
+
+
+
+var Spotify = require('../node_modules/spotify-web-api-js');
 var s = new Spotify();
 
-
+console.log("Hello");
 // // credentials are optional
 // var spotifyApi = new SpotifyWebApi({
 //   clientId : 'd137fe25b31c4f3ba9e29d85f4e47c66',
@@ -34,12 +36,6 @@ function getOriginalArtist() {
    };
  }
 
- Constr.prototype.getArtist = function(artistId, options, callback) {
-     var requestData = {
-       url: _baseUri + '/artists/' + artistId
-     };
-     return _checkParamsAndPerformRequest(requestData, options, callback);
-   };
 
   // function searchArtists(originalArtist) {
   //   $.getJSON("https://api.spotify.com/v1/search?type=artist&q=" + originalArtist, function(json) {
@@ -62,42 +58,42 @@ function getOriginalArtist() {
 //     $('#artist').html('<p>'+ '<img src="' + json.artists.items[0].images[2].url + '" height="100" width="100" /> ' + json.artists.items[0].name +'</p>');
 
 
-
-// Get an artist
-var originalArtistName = spotifyApi.getArtist(originalArtistId)
-  .then(function(data) {
-    console.log('Artist information', data.body);
-  }, function(err) {
-    console.error(err);
-  });
-
-// Get artists related to an artist
-var relatedArtists = spotifyApi.getArtistRelatedArtists(originalArtistName)
-  .then(function(data) {
-    console.log(data.body);
-  }, function(err) {
-    done(err);
-  });
-
-
-
-for (var i=0; i < relatedArtists.length; i++)
-{
-// Get an artist's top tracks
-  var relatedArtistsTopTracks = spotifyApi.getArtistTopTracks(relatedArtists[i], 'US')
-    .then(function(data) {
-      console.log(data.body);
-      }, function(err) {
-        console.log('Something went wrong!', err);
-      });
-
-
-
-      // get the most popular song from each related artist
-    var relatedArtistsTopSong = relatedArtistsTopTracks[i][0];
-    console.log(relatedArtistsTopSong);
-
-};
+//
+// // Get an artist
+// var originalArtistName = spotifyApi.getArtist(originalArtistId)
+//   .then(function(data) {
+//     console.log('Artist information', data.body);
+//   }, function(err) {
+//     console.error(err);
+//   });
+//
+// // Get artists related to an artist
+// var relatedArtists = spotifyApi.getArtistRelatedArtists(originalArtistName)
+//   .then(function(data) {
+//     console.log(data.body);
+//   }, function(err) {
+//     done(err);
+//   });
+//
+//
+//
+// for (var i=0; i < relatedArtists.length; i++)
+// {
+// // Get an artist's top tracks
+//   var relatedArtistsTopTracks = spotifyApi.getArtistTopTracks(relatedArtists[i], 'US')
+//     .then(function(data) {
+//       console.log(data.body);
+//       }, function(err) {
+//         console.log('Something went wrong!', err);
+//       });
+//
+//
+//
+//       // get the most popular song from each related artist
+//     var relatedArtistsTopSong = relatedArtistsTopTracks[i][0];
+//     console.log(relatedArtistsTopSong);
+//
+// };
 
 // var searchButton = document.getElementById('search');
 // if(searchButton) {
