@@ -10437,21 +10437,24 @@ function searchArtists(originalArtist) {
 
         console.log(data.artists[i].name);
         //reset html of related artist for new search
-        $('#related-artist').html('');
+        //$('#related-artist').html('');
 
         $('#related-artist').append('<p>'+ '<img src="' + data.artists[i].images[2].url + '" height="100" width="100" /> ' + data.artists[i].name + '</p>');
 
-        $('#related-artist').html('');
-
-      }
 
 
+       relatedArtistTracks = s.getArtistTopTracks(data.artists[i].id, "US", function (err, data) {
+         console.log(data.tracks[0].name);
+         $('#related-artist-track').append('<p>'+ '<i> ' + data.tracks[0].name + '</i></p>');
+
+       });
+
+     }
+   });
 
 
-      });
+ });
 
-
-    });
-  }
+ }
 
 },{"../node_modules/spotify-web-api-js":2,"jquery":1}]},{},[3]);
