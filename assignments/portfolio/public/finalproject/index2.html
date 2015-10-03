@@ -11,16 +11,16 @@
   <body>
 
   <script src="../bundle.js"></script>
-  <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
   <div class="container">
   <div id="left">
    <div id="header">
       <h1>What Do I Listen To Today?</h1>
    </div>
 
-    <input type="text" id="originalartist">
-
+  <form id="s">
+    <input type="text" id="originalartist" value="The Who">
     <button id="search">Search</button>
+  </form>
 
     <h2>If you like this artist...</h1>
     <div id="artist"></div>
@@ -36,7 +36,7 @@
     <div id="right">
     <h2>You might like these related artists:</h2>
     <div id="related-artist">
-        <div id="related-artist-track"></div>
+        <!-- <div id="related-artist-track"></div> -->
     </div>
 
 

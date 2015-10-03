@@ -3,6 +3,7 @@
 var $ = require('jquery');
 var Spotify = require('../node_modules/spotify-web-api-js');
 var s = new Spotify();
+var async = require('async');
 
 console.log("Hello");
 // // credentials are optional
@@ -16,64 +17,47 @@ console.log("Hello");
 // window.addEventListener('click', getOriginalArtist)
 
 $(document).ready(function($) {
-  window.addEventListener('click', function() {
-    var searchButton = document.getElementById('search');
-    //console.log(searchButton);
-    getOriginalArtist();
+  $('#s').on('submit', function() {
+    searchArtists($('#originalartist').val());
+    return false;
   });
 
 });
 
-function getOriginalArtist() {
-  var originalArtist = document.getElementById('originalartist').value;
-  console.log(originalArtist);
-  searchArtists(originalArtist);
-}
-
-var originalArtistId;
-var relatedArtists;
-var relatedArtistsLength;
-var relatedArtistId;
-var relatedArtistTracks;
-var relatedArtistTopSong;
-var relatedArtistsArray;
-var i;
-var k;
 function searchArtists(originalArtist) {
-
-
+  console.log('originalArtist', originalArtist);
   $.getJSON("https://api.spotify.com/v1/search?type=artist&q=" + originalArtist, function(json) {
+
    $('#artist').html('<p>'+ '<img src="' + json.artists.items[0].images[2].url + '" height="100" width="100" /> ' + json.artists.items[0].name +'</p>');
 
-    originalArtistId = json.artists.items[0].id;
+   var originalArtistId = json.artists.items[0].id;
 
-    console.log(originalArtistId);
+   s.getArtistRelatedArtists(originalArtistId, function(err, data) {
+      var relatedArtists = {};
 
-    //everything should happen in the callback
-    relatedArtists = s.getArtistRelatedArtists(originalArtistId, function(err, data) {
-      console.log(data.artists);
+      for (var i = 0; i < data.artists.length; i++) {
+         relatedArtists[data.artists[i].id] = {};
+         relatedArtists[data.artists[i].id].name = data.artists[i].name;
+         relatedArtists[data.artists[i].id].id = data.artists[i].id;
+      }
 
-      for (i = 0; i < 10; i++)
-      {
+      var counter = 0;
+      for (var id in relatedArtists) {
+         relatedArtists[counter] = relatedArtists[id];
+         delete relatedArtists[id];
+         counter++;
+      }
 
-        console.log(data.artists[i].name);
-        //reset html of related artist for new search
-        //$('#related-artist').html('');
-
-        $('#related-artist').append('<p>'+ '<img src="' + data.artists[i].images[2].url + '" height="100" width="100" /> ' + data.artists[i].name + '</p>');
-
-
-
-       relatedArtistTracks = s.getArtistTopTracks(data.artists[i].id, "US", function (err, data) {
-         console.log(data.tracks[0].name);
-         $('#related-artist-track').append('<p>'+ '<i> ' + data.tracks[0].name + '</i></p>');
-
-       });
-
-     }
-   });
-
+      async.times(counter, function(n, next){
+        s.getArtistTopTracks(relatedArtists[n].id, "US", function (err, data2) {
+          relatedArtists[n].song = data2.tracks[0].name;
+          next(null);
+        });
+      }, function(err) {
+        console.table(relatedArtists);
+        // display the page
+      });
+  });
 
  });
-
- }
+}
