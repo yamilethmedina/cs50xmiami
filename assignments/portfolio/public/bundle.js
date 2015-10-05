@@ -11753,6 +11753,16 @@ function searchArtists(originalArtist) {
         });
       }, function(err) {
         console.table(relatedArtists);
+        // display the page
+        // var obj = $(relatedArtists).html();
+        // $('#related-artist').append(obj);
+        // $('#related-artist').html('');
+        for (var k = 0; k < 20; k++)
+        {
+          $('#related-artist').append('<p><strong>' + relatedArtists[k].name + '</strong> -- \"' + relatedArtists[k].song + '\"</p>');
+        }
+
+
       });
   });
 

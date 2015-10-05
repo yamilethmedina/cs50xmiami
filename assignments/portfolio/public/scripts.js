@@ -5,7 +5,7 @@ var Spotify = require('../node_modules/spotify-web-api-js');
 var s = new Spotify();
 var async = require('async');
 
-console.log("Hello");
+
 // // credentials are optional
 // var spotifyApi = new SpotifyWebApi({
 //   clientId : 'd137fe25b31c4f3ba9e29d85f4e47c66',
@@ -54,8 +54,14 @@ function searchArtists(originalArtist) {
           next(null);
         });
       }, function(err) {
-        console.table(relatedArtists);
-        // display the page
+        // console.table(relatedArtists);
+
+        for (var k = 0; k < 20; k++)
+        {
+          $('#related-artist').append('<p><strong>' + relatedArtists[k].name + '</strong> -- \"' + relatedArtists[k].song + '\"</p>');
+        }
+
+
       });
   });
 
