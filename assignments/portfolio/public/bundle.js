@@ -11703,7 +11703,7 @@ var Spotify = require('../node_modules/spotify-web-api-js');
 var s = new Spotify();
 var async = require('async');
 
-console.log("Hello");
+
 // // credentials are optional
 // var spotifyApi = new SpotifyWebApi({
 //   clientId : 'd137fe25b31c4f3ba9e29d85f4e47c66',
@@ -11720,6 +11720,14 @@ $(document).ready(function($) {
     return false;
   });
 
+  $('#spotify').on('click', function() {
+  $.getJSON("https://accounts.spotify.com/authorize/?client_id=d137fe25b31c4f3ba9e29d85f4e47c66&response_type=code&redirect_uri=http://localhost:3000/callback&scope=user-read-private%20user-read-email&state=34fFs29kd09", function(json2){
+    $.getJSON("https://accounts.spotify.com/api/token/?grant_type=authorization_code&code=" + json2.code + "&redirect_uri=http://localhost:3000/callback&client_id=d137fe25b31c4f3ba9e29d85f4e47c66&client_secret=044d1250a8e74f8481b20cf3ad3316ee", function(json3) {
+      s.setAccessToken(json3.access_token);
+      });
+    // &token_type=bearer
+    });
+  });
 });
 
 function searchArtists(originalArtist) {
@@ -11752,11 +11760,8 @@ function searchArtists(originalArtist) {
           next(null);
         });
       }, function(err) {
-        console.table(relatedArtists);
-        // display the page
-        // var obj = $(relatedArtists).html();
-        // $('#related-artist').append(obj);
-        // $('#related-artist').html('');
+        // console.table(relatedArtists);
+
         for (var k = 0; k < 20; k++)
         {
           $('#related-artist').append('<p><strong>' + relatedArtists[k].name + '</strong> -- \"' + relatedArtists[k].song + '\"</p>');

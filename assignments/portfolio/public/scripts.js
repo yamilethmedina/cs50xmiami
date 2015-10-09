@@ -22,6 +22,15 @@ $(document).ready(function($) {
     return false;
   });
 
+  $('#spotify').on('click', function() {
+    $.support.cors = true;
+    $.getJSON("https://accounts.spotify.com/authorize/?client_id=d137fe25b31c4f3ba9e29d85f4e47c66&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fcallback&scope=user-read-private%20user-read-email&state=34fFs29kd09", function(json2){
+    $.getJSON("https://accounts.spotify.com/api/token/?grant_type=authorization_code&code=" + json2.code + "&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fcallback&client_id=d137fe25b31c4f3ba9e29d85f4e47c66&client_secret=044d1250a8e74f8481b20cf3ad3316ee", function(json3) {
+      s.setAccessToken(json3.access_token);
+      });
+    // &token_type=bearer
+    });
+  });
 });
 
 function searchArtists(originalArtist) {

@@ -9,6 +9,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.13.3"
+    "async": "^1.4.2",
+    "browserify": "^11.2.0",
+    "express": "^4.13.3",
+    "jquery": "^2.1.4",
+    "spotify-web-api-js": "^0.15.0",
+    "spotify-web-api-node": "^2.1.0"
   }
 }

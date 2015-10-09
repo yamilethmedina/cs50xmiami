@@ -9,7 +9,6 @@
    <link rel="stylesheet" href="style.css" />
    </head>
   <body>
-
   <script src="../bundle.js"></script>
   <div class="container">
   <div id="left">
@@ -17,10 +16,9 @@
       <h1>What Do I Listen To Today?</h1>
    </div>
 
-  <form id="s">
-    <input type="text" id="originalartist" value="Enter a band or artist's name">
+    <input type="text" id="originalartist">
+
     <button id="search">Search</button>
-  </form>
 
     <h2>If you like this artist...</h1>
     <div id="artist"></div>
@@ -36,12 +34,13 @@
     <div id="right">
     <h2>You might like these related artists:</h2>
     <div id="related-artist">
-        <!-- <div id="related-artist-track"></div> -->
+        <div id="related-artist-track"></div>
     </div>
 
-
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="scripts.js"></script>
 
    </div>
 
   </body>
-  </html>
+</html>
