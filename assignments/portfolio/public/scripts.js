@@ -22,6 +22,7 @@ $(document).ready(function($) {
     return false;
   });
 
+// turn this into a submit form?
   $('#spotify').on('click', function() {
     $.support.cors = true;
 

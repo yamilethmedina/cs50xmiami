@@ -35,6 +35,10 @@ app.get('/', function(req, res) {
   res.send(__dirname + '\\index.html')
 });
 
+app.post('/', function(req, res) {
+    res.send(req.body.spotify);
+});
+
 app.listen(port, function() {
           console.log('CORS-enabled web server listening on port ' + port);
 });
