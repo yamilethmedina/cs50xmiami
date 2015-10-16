@@ -11721,14 +11721,18 @@ $(document).ready(function($) {
   });
 
   $('#spotify').on('click', function() {
-  $.getJSON("https://accounts.spotify.com/authorize/?client_id=d137fe25b31c4f3ba9e29d85f4e47c66&response_type=code&redirect_uri=http://localhost:3000/callback&scope=user-read-private%20user-read-email&state=34fFs29kd09", function(json2){
-    $.getJSON("https://accounts.spotify.com/api/token/?grant_type=authorization_code&code=" + json2.code + "&redirect_uri=http://localhost:3000/callback&client_id=d137fe25b31c4f3ba9e29d85f4e47c66&client_secret=044d1250a8e74f8481b20cf3ad3316ee", function(json3) {
-      s.setAccessToken(json3.access_token);
+    $.support.cors = true;
+
+    $.post("https://accounts.spotify.com/api/token");
+
+    // var json_auth = $.getJSON("https://accounts.spotify.com/api/token/?grant_type=authorization_code&code=" + json.code + "&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fcallback&client_id=d137fe25b31c4f3ba9e29d85f4e47c66&client_secret=044d1250a8e74f8481b20cf3ad3316ee");
+    //  s.setAccessToken(json_auth.access_token);
       });
+
     // &token_type=bearer
     });
-  });
-});
+
+// });
 
 function searchArtists(originalArtist) {
   console.log('originalArtist', originalArtist);
