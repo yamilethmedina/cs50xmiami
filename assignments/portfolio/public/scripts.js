@@ -26,7 +26,7 @@ $(document).ready(function($) {
   $('#spotify').on('click', function() {
     $.support.cors = true;
 
-    $.post("https://accounts.spotify.com/api/token");
+    
 
     // var json_auth = $.getJSON("https://accounts.spotify.com/api/token/?grant_type=authorization_code&code=" + json.code + "&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fcallback&client_id=d137fe25b31c4f3ba9e29d85f4e47c66&client_secret=044d1250a8e74f8481b20cf3ad3316ee");
     //  s.setAccessToken(json_auth.access_token);

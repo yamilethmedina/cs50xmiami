@@ -22,6 +22,19 @@ app.use(function(req, res, next) {
 });
 
 
+app.get('/login', function(req, res) {
+var scopes = ['user-read-private', 'user-read-email', 'playlist-modify-public', 'playlist-modify-private'];
+var my_client_id = '5fe01282e44241328a84e7c5cc169165';
+var redirect_uri = 'http://localhost:3000/callback';
+res.redirect('https://accounts.spotify.com/authorize' +
+  '?response_type=code' +
+  '&client_id=' + my_client_id +
+  (scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
+  '&redirect_uri=' + encodeURIComponent(redirect_uri));
+});
+
+
+
 // app.all('/', function(req, res){
 //     res.header("Access-Control-Allow-Origin", "*");
 //     res.header("Access-Control-Allow-Headers", "X-Requested-With");
@@ -35,9 +48,9 @@ app.get('/', function(req, res) {
   res.send(__dirname + '\\index.html')
 });
 
-app.post('/', function(req, res) {
-    res.send(req.body.spotify);
-});
+// app.post('/', function(req, res) {
+//     res.send(req.body.spotify);
+// });
 
 app.listen(port, function() {
           console.log('CORS-enabled web server listening on port ' + port);
