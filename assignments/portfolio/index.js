@@ -48,10 +48,13 @@ app.get('/', function(req, res) {
   res.send(__dirname + '\\index.html')
 });
 
+<<<<<<< HEAD
 // app.post('/', function(req, res) {
 //     res.send(req.body.spotify);
 // });
 
+=======
+>>>>>>> parent of 3d1b93a... might change button to form?
 app.listen(port, function() {
           console.log('CORS-enabled web server listening on port ' + port);
 });
