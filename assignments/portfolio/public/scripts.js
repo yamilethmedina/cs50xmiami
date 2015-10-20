@@ -16,38 +16,50 @@ var async = require('async');
 // closure waiting for page to load event
 // window.addEventListener('click', getOriginalArtist)
 
+/**
+ * Returns an object with the query parameters passed in the
+ * hash of the URL
+ */
+function getHashParams() {
+  var hashParams = {};
+  var e, r = /([^&;=]+)=?([^&;]*)/g,
+      q = window.location.hash.substring(1);
+  while ( e = r.exec(q)) {
+     hashParams[e[1]] = decodeURIComponent(e[2]);
+  }
+  return hashParams;
+}
+
 $(document).ready(function($) {
   $('#s').on('submit', function() {
     searchArtists($('#originalartist').val());
     return false;
   });
 
-  $('#spotify').on('click', function() {
-    $.support.cors = true;
-    // var access_token = body.access_token;
-    s.getMe = function(options, callback) {
-    var requestData = {
-      url: _baseUri + '/me'
-    };
-    
-    return _checkParamsAndPerformRequest(requestData, options, callback);
+  var params = getHashParams();
+  var user_id;
 
-
-  };
-
-    // console.log(me);
-  //  });
-    // console.log(user_id);
-
-
-    // console.log(user_id);
-
-    // var json_auth = $.getJSON("https://accounts.spotify.com/api/token/?grant_type=authorization_code&code=" + json.code + "&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fcallback&client_id=d137fe25b31c4f3ba9e29d85f4e47c66&client_secret=044d1250a8e74f8481b20cf3ad3316ee");
-    //  s.setAccessToken(json_auth.access_token);
+  // if "access_token" is there, it probably means that we have come back from the
+  // Spotify authentication page, and we now have an access token
+  if (params.access_token) {
+    // yuhu!!!
+    // make sure the Spotify Web API JS wrapper has an access token that it can use
+    // to fetch the current user's info
+    s.setAccessToken(params.access_token);
+    // and now, let's call getMe(). Here we are using a Promise, but we could have
+    // also used a callback function
+    s.getMe().then(function(data) {
+      // and here it goes the user's data!!!
+      console.log(data);
+      console.log(data.id);
+      user_id = data.id;
+      // playlists are showing up as undefined
+      s.createPlaylist(user_id).then(function(data3) {
+        console.log(data3);
       });
-
-    // &token_type=bearer
     });
+    }
+});
 
 // });
 
@@ -80,6 +92,7 @@ function searchArtists(originalArtist) {
           relatedArtists[n].song = data2.tracks[0].name;
           next(null);
         });
+
       }, function(err) {
         // console.table(relatedArtists);
 
