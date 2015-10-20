@@ -11728,6 +11728,13 @@ function getHashParams() {
   return hashParams;
 }
 
+var user_id;
+var playlist_id;
+var relatedArtists;
+var n;
+var k;
+// var song_uris;
+
 $(document).ready(function($) {
   $('#s').on('submit', function() {
     searchArtists($('#originalartist').val());
@@ -11735,7 +11742,7 @@ $(document).ready(function($) {
   });
 
   var params = getHashParams();
-  var user_id;
+
 
   // if "access_token" is there, it probably means that we have come back from the
   // Spotify authentication page, and we now have an access token
@@ -11752,8 +11759,17 @@ $(document).ready(function($) {
       console.log(data.id);
       user_id = data.id;
       // playlists are showing up as undefined
-      s.createPlaylist(user_id).then(function(data3) {
+// spotify:user:tenderoni-:playlist:5NPwZMgVoWo8WDTRdJ23l0
+      s.createPlaylist(user_id, {name: 'Related Artist Playlist'}).then(function(data3) {
         console.log(data3);
+        playlist_id = data3.uri;
+        playlist_id = playlist_id.substring(33);
+        console.log(playlist_id);
+
+
+
+       s.addTracksToPlaylist(user_id, playlist_id, [relatedArtists[0].uri, relatedArtists[1].uri, relatedArtists[2].uri, relatedArtists[3].uri, relatedArtists[4].uri, relatedArtists[5].uri, relatedArtists[6].uri, relatedArtists[7].uri, relatedArtists[8].uri, relatedArtists[9].uri, relatedArtists[10].uri, relatedArtists[11].uri, relatedArtists[12].uri, relatedArtists[13].uri, relatedArtists[14].uri, relatedArtists[15].uri, relatedArtists[16].uri, relatedArtists[17].uri, relatedArtists[18].uri, relatedArtists[19].uri]);
+
       });
     });
     }
@@ -11770,7 +11786,7 @@ function searchArtists(originalArtist) {
    var originalArtistId = json.artists.items[0].id;
 
    s.getArtistRelatedArtists(originalArtistId, function(err, data) {
-      var relatedArtists = {};
+      relatedArtists = {};
 
       for (var i = 0; i < data.artists.length; i++) {
          relatedArtists[data.artists[i].id] = {};
@@ -11788,15 +11804,25 @@ function searchArtists(originalArtist) {
       async.times(counter, function(n, next){
         s.getArtistTopTracks(relatedArtists[n].id, "US", function (err, data2) {
           relatedArtists[n].song = data2.tracks[0].name;
+          relatedArtists[n].uri = data2.tracks[0].uri;
+          console.log(relatedArtists[n].uri);
+          // song_uris = relatedArtists[n].uri;
+          //
+          // console.log(song_uris);
           next(null);
         });
 
       }, function(err) {
         // console.table(relatedArtists);
 
-        for (var k = 0; k < 20; k++)
+        for (k = 0; k < 20; k++)
         {
           $('#related-artist').append('<p><strong>' + relatedArtists[k].name + '</strong> -- \"' + relatedArtists[k].song + '\"</p>');
+          // console.log(song_uris);
+          // s.addTracksToPlaylist(user_id, playlist_id, [song_uris]);
+
+          // s.addTracksToPlaylist(user_id, playlist_id, [relatedArtists[n].uri], {position: k});
+
         }
 
 
