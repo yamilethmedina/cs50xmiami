@@ -11733,7 +11733,7 @@ var playlist_id;
 var relatedArtists;
 var n;
 var k;
-// var song_uris;
+var song_uris = [];
 
 $(document).ready(function($) {
   $('#s').on('submit', function() {
@@ -11768,7 +11768,7 @@ $(document).ready(function($) {
 
 
 
-       s.addTracksToPlaylist(user_id, playlist_id, [relatedArtists[0].uri, relatedArtists[1].uri, relatedArtists[2].uri, relatedArtists[3].uri, relatedArtists[4].uri, relatedArtists[5].uri, relatedArtists[6].uri, relatedArtists[7].uri, relatedArtists[8].uri, relatedArtists[9].uri, relatedArtists[10].uri, relatedArtists[11].uri, relatedArtists[12].uri, relatedArtists[13].uri, relatedArtists[14].uri, relatedArtists[15].uri, relatedArtists[16].uri, relatedArtists[17].uri, relatedArtists[18].uri, relatedArtists[19].uri]);
+       s.addTracksToPlaylist(user_id, playlist_id, song_uris);
 
       });
     });
@@ -11806,11 +11806,17 @@ function searchArtists(originalArtist) {
           relatedArtists[n].song = data2.tracks[0].name;
           relatedArtists[n].uri = data2.tracks[0].uri;
           console.log(relatedArtists[n].uri);
+          // make sure to put the access token here add song to playlist
+          // create array
+          song_uris.push(relatedArtists[n].uri);
+          console.log(song_uris);
+
           // song_uris = relatedArtists[n].uri;
           //
           // console.log(song_uris);
           next(null);
         });
+
 
       }, function(err) {
         // console.table(relatedArtists);
