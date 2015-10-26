@@ -11767,7 +11767,7 @@ $(document).ready(function($) {
         console.log(playlist_id);
 
 
-
+       console.log(song_uris);
        s.addTracksToPlaylist(user_id, playlist_id, song_uris);
 
       });
@@ -11809,7 +11809,7 @@ function searchArtists(originalArtist) {
           // make sure to put the access token here add song to playlist
           // create array
           song_uris.push(relatedArtists[n].uri);
-          console.log(song_uris);
+          // console.log(song_uris);
 
           // song_uris = relatedArtists[n].uri;
           //
