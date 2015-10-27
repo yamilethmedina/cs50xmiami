@@ -36,6 +36,7 @@ var relatedArtists;
 var n;
 var k;
 var song_uris = [];
+var params = getHashParams();
 
 $(document).ready(function($) {
   $('#s').on('submit', function() {
@@ -43,7 +44,7 @@ $(document).ready(function($) {
     return false;
   });
 
-  var params = getHashParams();
+  // var params = getHashParams();
 
 
   // if "access_token" is there, it probably means that we have come back from the
@@ -70,7 +71,7 @@ $(document).ready(function($) {
 
 
        console.log(song_uris);
-       s.addTracksToPlaylist(user_id, playlist_id, song_uris);
+      //  s.addTracksToPlaylist(user_id, playlist_id, song_uris);
 
       });
     });
@@ -111,12 +112,17 @@ function searchArtists(originalArtist) {
           // make sure to put the access token here add song to playlist
           // create array
           song_uris.push(relatedArtists[n].uri);
-          // console.log(song_uris);
+          console.log(song_uris);
 
           // song_uris = relatedArtists[n].uri;
           //
           // console.log(song_uris);
+
           next(null);
+
+      $("#playlist").load(function() {
+            s.addTracksToPlaylist(user_id, playlist_id, song_uris);
+          });
         });
 
 
@@ -135,6 +141,7 @@ function searchArtists(originalArtist) {
 
 
       });
+
   });
 
  });
