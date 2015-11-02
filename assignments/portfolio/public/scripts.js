@@ -40,9 +40,11 @@ var params = getHashParams();
 
 $(document).ready(function($) {
   $('#s').on('submit', function() {
-    searchArtists($('#originalartist').val());
-    return false;
-  });
+    searchArtists($('#originalartist').val(), function(err, song_uris) {
+
+  //   }
+  //   return false;
+  // });
 
   // var params = getHashParams();
 
@@ -60,7 +62,10 @@ $(document).ready(function($) {
       // and here it goes the user's data!!!
       console.log(data);
       console.log(data.id);
+      console.log(song_uris);
       user_id = data.id;
+
+
       // playlists are showing up as undefined
 // spotify:user:tenderoni-:playlist:5NPwZMgVoWo8WDTRdJ23l0
       s.createPlaylist(user_id, {name: 'Related Artist Playlist'}).then(function(data3) {
@@ -70,17 +75,23 @@ $(document).ready(function($) {
         console.log(playlist_id);
 
 
-       console.log(song_uris);
+      //  console.log(song_uris);
       //  s.addTracksToPlaylist(user_id, playlist_id, song_uris);
 
-      });
+//       });
+//     });
+//     }
+// });
+        });
+      // }
     });
-    }
-});
+    return false;
+  // });
+  });
 
 // });
 
-function searchArtists(originalArtist) {
+function searchArtists(originalArtist, callback) {
   console.log('originalArtist', originalArtist);
   $.getJSON("https://api.spotify.com/v1/search?type=artist&q=" + originalArtist, function(json) {
 
@@ -109,6 +120,7 @@ function searchArtists(originalArtist) {
           relatedArtists[n].song = data2.tracks[0].name;
           relatedArtists[n].uri = data2.tracks[0].uri;
           console.log(relatedArtists[n].uri);
+          next(relatedArtists[n].uri);
           // make sure to put the access token here add song to playlist
           // create array
           song_uris.push(relatedArtists[n].uri);
@@ -118,7 +130,7 @@ function searchArtists(originalArtist) {
           //
           // console.log(song_uris);
 
-          next(null);
+          // next(null);
 
       $("#playlist").load(function() {
             s.addTracksToPlaylist(user_id, playlist_id, song_uris);
@@ -126,8 +138,11 @@ function searchArtists(originalArtist) {
         });
 
 
-      }, function(err) {
+      }, function(err, song_uris) {
+          callback(err, song_uris);
         // console.table(relatedArtists);
+
+      });
 
         for (k = 0; k < 20; k++)
         {
