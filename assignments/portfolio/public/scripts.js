@@ -1,5 +1,4 @@
 
-
 var $ = require('jquery');
 var Spotify = require('../node_modules/spotify-web-api-js');
 var s = new Spotify();
@@ -38,13 +37,12 @@ var k;
 var song_uris = [];
 var params = getHashParams();
 
+
 $(document).ready(function($) {
   $('#s').on('submit', function() {
-    searchArtists($('#originalartist').val(), function(err, song_uris) {
-
-  //   }
-  //   return false;
-  // });
+    searchArtists($('#originalartist').val());
+    return false;
+  });
 
   // var params = getHashParams();
 
@@ -62,10 +60,7 @@ $(document).ready(function($) {
       // and here it goes the user's data!!!
       console.log(data);
       console.log(data.id);
-      console.log(song_uris);
       user_id = data.id;
-
-
       // playlists are showing up as undefined
 // spotify:user:tenderoni-:playlist:5NPwZMgVoWo8WDTRdJ23l0
       s.createPlaylist(user_id, {name: 'Related Artist Playlist'}).then(function(data3) {
@@ -73,91 +68,99 @@ $(document).ready(function($) {
         playlist_id = data3.uri;
         playlist_id = playlist_id.substring(33);
         console.log(playlist_id);
+        s.addTracksToPlaylist(user_id, playlist_id, song_uris);
 
 
-      //  console.log(song_uris);
+
+
+
       //  s.addTracksToPlaylist(user_id, playlist_id, song_uris);
 
-//       });
-//     });
-//     }
-// });
-        });
-      }
-    });
-    return false;
-  });
-  });
+      });
 
-// });
+    });
+    }
+});
+
+// break
 
 function searchArtists(originalArtist, callback) {
   console.log('originalArtist', originalArtist);
   $.getJSON("https://api.spotify.com/v1/search?type=artist&q=" + originalArtist, function(json) {
 
-   $('#artist').html('<p>'+ '<img src="' + json.artists.items[0].images[2].url + '" height="100" width="100" /> ' + json.artists.items[0].name +'</p>');
+    $('#artist').html('<p>'+ '<img src="' + json.artists.items[0].images[2].url + '" height="100" width="100" /> ' + json.artists.items[0].name +'</p>');
 
-   var originalArtistId = json.artists.items[0].id;
-
-   s.getArtistRelatedArtists(originalArtistId, function(err, data) {
+    var originalArtistId = json.artists.items[0].id;
+    s.getArtistRelatedArtists(originalArtistId, function(err, data) {
       relatedArtists = {};
 
       for (var i = 0; i < data.artists.length; i++) {
-         relatedArtists[data.artists[i].id] = {};
-         relatedArtists[data.artists[i].id].name = data.artists[i].name;
-         relatedArtists[data.artists[i].id].id = data.artists[i].id;
+        relatedArtists[data.artists[i].id] = {};
+        relatedArtists[data.artists[i].id].name = data.artists[i].name;
+        relatedArtists[data.artists[i].id].id = data.artists[i].id;
       }
+
+
 
       var counter = 0;
       for (var id in relatedArtists) {
-         relatedArtists[counter] = relatedArtists[id];
-         delete relatedArtists[id];
-         counter++;
+        relatedArtists[counter] = relatedArtists[id];
+        delete relatedArtists[id];
+        counter++;
       }
-
-      async.times(counter, function(n, next){
-        s.getArtistTopTracks(relatedArtists[n].id, "US", function (err, data2) {
-          relatedArtists[n].song = data2.tracks[0].name;
-          relatedArtists[n].uri = data2.tracks[0].uri;
-          console.log(relatedArtists[n].uri);
-          next(relatedArtists[n].uri);
-          // make sure to put the access token here add song to playlist
-          // create array
-          song_uris.push(relatedArtists[n].uri);
-          console.log(song_uris);
-
-          // song_uris = relatedArtists[n].uri;
-          //
-          // console.log(song_uris);
-
-          // next(null);
-
-      $("#playlist").load(function() {
-            s.addTracksToPlaylist(user_id, playlist_id, song_uris);
+      //console.log("1");
+        async.times(counter, function(n, next) {
+          console.log(n);
+          console.log(relatedArtists[n].id);
+          s.getArtistTopTracks(relatedArtists[n].id, "US", function (err, data2) {
+            relatedArtists[n].song = data2.tracks[0].name;
+            relatedArtists[n].uri = data2.tracks[0].uri;
+            //console.log(relatedArtists[n].uri);
+            //console.log(relatedArtists[n].song);
+            $('#related-artist').append('<p><strong>' + relatedArtists[n].name + '</strong> -- \"' + relatedArtists[n].song + '\"</p>');
+            //song_uris.push(relatedArtists[n].uri);
+            // console.log(song_uris);
+            next(null, relatedArtists[n].uri);
           });
-        });
+            // next(related_artists[n].uri)
+        }, function(err, song_uris) {
+
+          // console.log("HERE");
+          // console.log(err);
+          console.log(song_uris);
+      //     s.setAccessToken(params.access_token);
+      //     s.getMe().then(function(data) {
+      //       // and here it goes the user's data!!!
+      //       console.log(data);
+      //       console.log(data.id);
+      //       user_id = data.id;
+      //       // playlists are showing up as undefined
+      // // spotify:user:tenderoni-:playlist:5NPwZMgVoWo8WDTRdJ23l0
+      //       s.createPlaylist(user_id, {name: 'Related Artist Playlist'}).then(function(data3) {
+      //         console.log(data3);
+      //         playlist_id = data3.uri;
+      //         playlist_id = playlist_id.substring(33);
+      //         console.log(playlist_id);
+      //         console.log(user_id);
 
 
-      }, function(err, song_uris) {
-          callback(err, song_uris);
-        // console.table(relatedArtists);
-
-      });
-
-        for (k = 0; k < 20; k++)
-        {
-          $('#related-artist').append('<p><strong>' + relatedArtists[k].name + '</strong> -- \"' + relatedArtists[k].song + '\"</p>');
-          // console.log(song_uris);
-          // s.addTracksToPlaylist(user_id, playlist_id, [song_uris]);
-
-          // s.addTracksToPlaylist(user_id, playlist_id, [relatedArtists[n].uri], {position: k});
-
-        }
 
 
-      });
 
-  });
+            s.addTracksToPlaylist(user_id, playlist_id, song_uris);
+          // s.addTracksToPlaylist(user_id, playlist_id, song_uris);
 
- });
+//            console.log("hello");
+//            callback(err, song_uris);
+
+        // console.log(song_uris);
+    // });
+
+
+  // });
+
+});
+
+});
+});
 }

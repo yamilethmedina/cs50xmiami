@@ -11766,6 +11766,7 @@ $(document).ready(function($) {
         playlist_id = data3.uri;
         playlist_id = playlist_id.substring(33);
         console.log(playlist_id);
+        s.addTracksToPlaylist(user_id, playlist_id, song_uris);
 
 
 
@@ -11825,20 +11826,20 @@ function searchArtists(originalArtist, callback) {
           // console.log("HERE");
           // console.log(err);
           console.log(song_uris);
-          s.setAccessToken(params.access_token);
-          s.getMe().then(function(data) {
-            // and here it goes the user's data!!!
-            console.log(data);
-            console.log(data.id);
-            user_id = data.id;
-            // playlists are showing up as undefined
-      // spotify:user:tenderoni-:playlist:5NPwZMgVoWo8WDTRdJ23l0
-            s.createPlaylist(user_id, {name: 'Related Artist Playlist'}).then(function(data3) {
-              console.log(data3);
-              playlist_id = data3.uri;
-              playlist_id = playlist_id.substring(33);
-              console.log(playlist_id);
-              console.log(user_id);
+      //     s.setAccessToken(params.access_token);
+      //     s.getMe().then(function(data) {
+      //       // and here it goes the user's data!!!
+      //       console.log(data);
+      //       console.log(data.id);
+      //       user_id = data.id;
+      //       // playlists are showing up as undefined
+      // // spotify:user:tenderoni-:playlist:5NPwZMgVoWo8WDTRdJ23l0
+      //       s.createPlaylist(user_id, {name: 'Related Artist Playlist'}).then(function(data3) {
+      //         console.log(data3);
+      //         playlist_id = data3.uri;
+      //         playlist_id = playlist_id.substring(33);
+      //         console.log(playlist_id);
+      //         console.log(user_id);
 
 
 
@@ -11851,10 +11852,10 @@ function searchArtists(originalArtist, callback) {
 //            callback(err, song_uris);
 
         // console.log(song_uris);
-    });
+    // });
 
 
-  });
+  // });
 
 });
 
