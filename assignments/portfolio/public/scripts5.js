@@ -34,8 +34,9 @@ var playlist_id;
 var relatedArtists;
 var n;
 var k;
-var song_uris = [];
+// var song_uris = [];
 var params = getHashParams();
+
 
 
 $(document).ready(function($) {
@@ -135,6 +136,7 @@ function searchArtists(originalArtist, callback) {
             console.log(data);
             console.log(data.id);
             user_id = data.id;
+            // console.log(song_uris);
             // playlists are showing up as undefined
       // spotify:user:tenderoni-:playlist:5NPwZMgVoWo8WDTRdJ23l0
             s.createPlaylist(user_id, {name: 'Related Artist Playlist'}).then(function(data3) {
@@ -143,12 +145,15 @@ function searchArtists(originalArtist, callback) {
               playlist_id = playlist_id.substring(33);
               console.log(playlist_id);
               console.log(user_id);
+              console.log(song_uris);
 
 
 
 
 
-            s.addTracksToPlaylist(user_id, playlist_id, song_uris);
+              s.addTracksToPlaylist(user_id, playlist_id, song_uris).then(function(data){
+                  console.log(data);
+                });
           // s.addTracksToPlaylist(user_id, playlist_id, song_uris);
 
 //            console.log("hello");

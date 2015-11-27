@@ -11732,8 +11732,9 @@ var playlist_id;
 var relatedArtists;
 var n;
 var k;
-var song_uris = [];
+// var song_uris = [];
 var params = getHashParams();
+
 
 
 $(document).ready(function($) {
@@ -11747,38 +11748,37 @@ $(document).ready(function($) {
 
   // if "access_token" is there, it probably means that we have come back from the
   // Spotify authentication page, and we now have an access token
-  if (params.access_token) {
-    // yuhu!!!
-    // make sure the Spotify Web API JS wrapper has an access token that it can use
-    // to fetch the current user's info
-    s.setAccessToken(params.access_token);
-    // and now, let's call getMe(). Here we are using a Promise, but we could have
-    // also used a callback function
-    s.getMe().then(function(data) {
-      // and here it goes the user's data!!!
-      console.log(data);
-      console.log(data.id);
-      user_id = data.id;
-      // playlists are showing up as undefined
-// spotify:user:tenderoni-:playlist:5NPwZMgVoWo8WDTRdJ23l0
-      s.createPlaylist(user_id, {name: 'Related Artist Playlist'}).then(function(data3) {
-        console.log(data3);
-        playlist_id = data3.uri;
-        playlist_id = playlist_id.substring(33);
-        console.log(playlist_id);
-        s.addTracksToPlaylist(user_id, playlist_id, song_uris);
-
-
-
-
-
-      //  s.addTracksToPlaylist(user_id, playlist_id, song_uris);
-
-      });
-
-    });
-    }
-});
+//   if (params.access_token) {
+//     // yuhu!!!
+//     // make sure the Spotify Web API JS wrapper has an access token that it can use
+//     // to fetch the current user's info
+//     s.setAccessToken(params.access_token);
+//     // and now, let's call getMe(). Here we are using a Promise, but we could have
+//     // also used a callback function
+//     s.getMe().then(function(data) {
+//       // and here it goes the user's data!!!
+//       console.log(data);
+//       console.log(data.id);
+//       user_id = data.id;
+//       // playlists are showing up as undefined
+// // spotify:user:tenderoni-:playlist:5NPwZMgVoWo8WDTRdJ23l0
+//       s.createPlaylist(user_id, {name: 'Related Artist Playlist'}).then(function(data3) {
+//         console.log(data3);
+//         playlist_id = data3.uri;
+//         playlist_id = playlist_id.substring(33);
+//         console.log(playlist_id);
+//
+//
+//
+//
+//
+//       //  s.addTracksToPlaylist(user_id, playlist_id, song_uris);
+//
+//       });
+//
+//     });
+//     }
+// });
 
 // break
 
@@ -11819,6 +11819,7 @@ function searchArtists(originalArtist, callback) {
             //song_uris.push(relatedArtists[n].uri);
             // console.log(song_uris);
             next(null, relatedArtists[n].uri);
+            //needs to be inside async.times and have a null error condition
           });
             // next(related_artists[n].uri)
         }, function(err, song_uris) {
@@ -11826,41 +11827,48 @@ function searchArtists(originalArtist, callback) {
           // console.log("HERE");
           // console.log(err);
           console.log(song_uris);
-      //     s.setAccessToken(params.access_token);
-      //     s.getMe().then(function(data) {
-      //       // and here it goes the user's data!!!
-      //       console.log(data);
-      //       console.log(data.id);
-      //       user_id = data.id;
-      //       // playlists are showing up as undefined
-      // // spotify:user:tenderoni-:playlist:5NPwZMgVoWo8WDTRdJ23l0
-      //       s.createPlaylist(user_id, {name: 'Related Artist Playlist'}).then(function(data3) {
-      //         console.log(data3);
-      //         playlist_id = data3.uri;
-      //         playlist_id = playlist_id.substring(33);
-      //         console.log(playlist_id);
-      //         console.log(user_id);
+          if (params.access_token) {
+          s.setAccessToken(params.access_token);
+          s.getMe().then(function(data) {
+            // and here it goes the user's data!!!
+            console.log(data);
+            console.log(data.id);
+            user_id = data.id;
+            // console.log(song_uris);
+            // playlists are showing up as undefined
+      // spotify:user:tenderoni-:playlist:5NPwZMgVoWo8WDTRdJ23l0
+            s.createPlaylist(user_id, {name: 'Related Artist Playlist'}).then(function(data3) {
+              console.log(data3);
+              playlist_id = data3.uri;
+              playlist_id = playlist_id.substring(33);
+              console.log(playlist_id);
+              console.log(user_id);
+              console.log(song_uris);
 
 
 
 
 
-            s.addTracksToPlaylist(user_id, playlist_id, song_uris);
+              s.addTracksToPlaylist(user_id, playlist_id, song_uris).then(function(data){
+                  console.log(data);
+                });
           // s.addTracksToPlaylist(user_id, playlist_id, song_uris);
 
 //            console.log("hello");
 //            callback(err, song_uris);
 
         // console.log(song_uris);
-    // });
+    });
 
 
-  // });
+  });
+  }
 
 });
 
 });
 });
 }
+});
 
 },{"../node_modules/spotify-web-api-js":4,"async":2,"jquery":3}]},{},[5]);
