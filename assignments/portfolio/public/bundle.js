@@ -11827,9 +11827,12 @@ function searchArtists(originalArtist, callback) {
           // console.log("HERE");
           // console.log(err);
           console.log(song_uris);
+          //stops working here
           if (params.access_token) {
+
           s.setAccessToken(params.access_token);
           s.getMe().then(function(data) {
+            
             // and here it goes the user's data!!!
             console.log(data);
             console.log(data.id);
