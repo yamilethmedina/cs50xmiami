@@ -34,8 +34,9 @@ var playlist_id;
 var relatedArtists;
 var n;
 var k;
+
 // var song_uris = [];
-var params = getHashParams();
+
 
 
 
@@ -43,7 +44,9 @@ $(document).ready(function($) {
   $('#s').on('submit', function() {
     searchArtists($('#originalartist').val());
     return false;
+
   });
+
 
   // var params = getHashParams();
 
@@ -113,7 +116,7 @@ function searchArtists(originalArtist, callback) {
           console.log(n);
           console.log(relatedArtists[n].id);
           s.getArtistTopTracks(relatedArtists[n].id, "US", function (err, data2) {
-            relatedArtists[n].song = data2.tracks[0].name;
+            relatedArtists[n].song = data2.tracks[0].name; //sometimes this is a TypeError? idk
             relatedArtists[n].uri = data2.tracks[0].uri;
             //console.log(relatedArtists[n].uri);
             //console.log(relatedArtists[n].song);
@@ -129,12 +132,23 @@ function searchArtists(originalArtist, callback) {
           // console.log("HERE");
           // console.log(err);
           console.log(song_uris);
+		  // console.log(location.hash);
           //stops working here
+
+		  spotify.addEventListener('click', function() {
+        var params = getHashParams();
+
+
+ 		       console.log(params); //is an empty object
+
+           console.log(params.access_token); //is undefined
+
+
           if (params.access_token) {
 
           s.setAccessToken(params.access_token);
           s.getMe().then(function(data) {
-            
+
             // and here it goes the user's data!!!
             console.log(data);
             console.log(data.id);
@@ -168,6 +182,7 @@ function searchArtists(originalArtist, callback) {
 
   });
   }
+  }, false);
 
 });
 
