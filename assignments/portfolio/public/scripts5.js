@@ -25,6 +25,7 @@ function getHashParams() {
       q = window.location.hash.substring(1);
   while ( e = r.exec(q)) {
      hashParams[e[1]] = decodeURIComponent(e[2]);
+     console.log(hashParams[e[1]]);
   }
   return hashParams;
 }
@@ -35,7 +36,7 @@ var relatedArtists;
 var n;
 var k;
 
-// var song_uris = [];
+var song_uris = [];
 
 
 
@@ -87,7 +88,68 @@ $(document).ready(function($) {
 
 // break
 
+window.onload = function () {
+    console.log(window.location.hash.substring(1));
+var params = getHashParams();
+
+
+           console.log(params); //is an empty object
+
+           console.log(params.access_token); //is undefined
+           console.log(window.location.hash);
+
+
+          if (params.access_token) {
+
+          s.setAccessToken(params.access_token);
+          s.getMe().then(function(data) {
+
+            // and here it goes the user's data!!!
+            console.log(data);
+            console.log(data.id);
+            user_id = data.id;
+            // console.log(song_uris);
+            // playlists are showing up as undefined
+      // spotify:user:tenderoni-:playlist:5NPwZMgVoWo8WDTRdJ23l0
+            s.createPlaylist(user_id, {name: 'Related Artist Playlist'}).then(function(data3) {
+              console.log(data3);
+              playlist_id = data3.uri;
+              playlist_id = playlist_id.substring(33);
+              console.log(playlist_id);
+              console.log(user_id);
+              console.log(song_uris); //array is empty here
+
+
+
+
+
+              s.addTracksToPlaylist(user_id, playlist_id, song_uris).then(function(data){
+                  console.log(data);
+                });
+          // s.addTracksToPlaylist(user_id, playlist_id, song_uris);
+
+//            console.log("hello");
+//            callback(err, song_uris);
+
+        // console.log(song_uris);
+    });
+
+
+  });
+  }
+
+};
+
+window.onhashchange = function () {
+          console.log("Hash changed");
+          console.log(window.location.hash.substring(1));
+      };
+
+
 function searchArtists(originalArtist, callback) {
+    $(window).on('hashchange', function() {
+      console.log(window.location.hash);
+    });
   console.log('originalArtist', originalArtist);
   $.getJSON("https://api.spotify.com/v1/search?type=artist&q=" + originalArtist, function(json) {
 
@@ -121,7 +183,7 @@ function searchArtists(originalArtist, callback) {
             //console.log(relatedArtists[n].uri);
             //console.log(relatedArtists[n].song);
             $('#related-artist').append('<p><strong>' + relatedArtists[n].name + '</strong> -- \"' + relatedArtists[n].song + '\"</p>');
-            //song_uris.push(relatedArtists[n].uri);
+            song_uris.push(relatedArtists[n].uri);
             // console.log(song_uris);
             next(null, relatedArtists[n].uri);
             //needs to be inside async.times and have a null error condition
@@ -131,57 +193,12 @@ function searchArtists(originalArtist, callback) {
 
           // console.log("HERE");
           // console.log(err);
-          console.log(song_uris);
-		  // console.log(location.hash);
-          //stops working here
-
-		  spotify.addEventListener('click', function() {
-        var params = getHashParams();
+          console.log(song_uris); //array is full here
+      // console.log(location.hash);
 
 
- 		       console.log(params); //is an empty object
+      spotify.addEventListener('click', function() {
 
-           console.log(params.access_token); //is undefined
-
-
-          if (params.access_token) {
-
-          s.setAccessToken(params.access_token);
-          s.getMe().then(function(data) {
-
-            // and here it goes the user's data!!!
-            console.log(data);
-            console.log(data.id);
-            user_id = data.id;
-            // console.log(song_uris);
-            // playlists are showing up as undefined
-      // spotify:user:tenderoni-:playlist:5NPwZMgVoWo8WDTRdJ23l0
-            s.createPlaylist(user_id, {name: 'Related Artist Playlist'}).then(function(data3) {
-              console.log(data3);
-              playlist_id = data3.uri;
-              playlist_id = playlist_id.substring(33);
-              console.log(playlist_id);
-              console.log(user_id);
-              console.log(song_uris);
-
-
-
-
-
-              s.addTracksToPlaylist(user_id, playlist_id, song_uris).then(function(data){
-                  console.log(data);
-                });
-          // s.addTracksToPlaylist(user_id, playlist_id, song_uris);
-
-//            console.log("hello");
-//            callback(err, song_uris);
-
-        // console.log(song_uris);
-    });
-
-
-  });
-  }
   }, false);
 
 });
